@@ -77,6 +77,8 @@ where
             let conn = self_.get().map_err(AsyncError::Checkout)?;
             diesel::sql_query("PRAGMA journal_mode = wal")
                 .execute(&*conn);
+            diesel::sql_query("PRAGMA synchronous = FULL")
+                .executE(&*conn);
             diesel::sql_query("PRAGMA wal_checkpoint(TRUNCATE)")
                 .execute(&*conn)
                 .map_err(AsyncError::Error)?;
@@ -120,6 +122,8 @@ where
             let conn = self_.get().map_err(AsyncError::Checkout)?;
             diesel::sql_query("PRAGMA journal_mode = wal")
                 .execute(&*conn);
+            diesel::sql_query("PRAGMA synchronous = FULL")
+                .executE(&*conn);
             diesel::sql_query("PRAGMA wal_checkpoint(TRUNCATE)")
                 .execute(&*conn)
                 .map_err(AsyncError::Error)?;
@@ -142,6 +146,8 @@ where
             diesel::sql_query("PRAGMA journal_mode = wal")
                 .execute(&*conn)
                 .map_err(AsyncError::Error)?;
+            diesel::sql_query("PRAGMA synchronous = FULL")
+                .executE(&*conn);
             diesel::sql_query("PRAGMA wal_checkpoint(TRUNCATE)")
                 .execute(&*conn)
                 .map_err(AsyncError::Error)?;
