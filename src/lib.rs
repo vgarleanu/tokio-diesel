@@ -75,6 +75,8 @@ where
         let query = query.to_string();
         task::block_in_place(move || {
             let conn = self_.get().map_err(AsyncError::Checkout)?;
+            diesel::sql_query("PRAGMA journal_mode = wal")
+                .execute(&*conn);
             diesel::sql_query("PRAGMA busy_timeout=5000000")
                 .execute(&*conn)
                 .map_err(AsyncError::Error)?;
@@ -113,6 +115,8 @@ where
         let self_ = self.clone();
         task::block_in_place(move || {
             let conn = self_.get().map_err(AsyncError::Checkout)?;
+            diesel::sql_query("PRAGMA journal_mode = wal")
+                .execute(&*conn);
             diesel::sql_query("PRAGMA busy_timeout=5000000")
                 .execute(&*conn)
                 .map_err(AsyncError::Error)?;
@@ -129,6 +133,8 @@ where
         let self_ = self.clone();
         task::block_in_place(move || {
             let conn = self_.get().map_err(AsyncError::Checkout)?;
+            diesel::sql_query("PRAGMA journal_mode = wal")
+                .execute(&*conn);
             diesel::sql_query("PRAGMA busy_timeout=5000000")
                 .execute(&*conn)
                 .map_err(AsyncError::Error)?;
